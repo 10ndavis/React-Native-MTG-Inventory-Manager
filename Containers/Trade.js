@@ -2,14 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 
-export default class Trade extends React.Component {
+export default class CheckForTrades extends React.Component {
 
   state = {
     hasCameraPermission: null,
+    modalVisible: false
   }
 
   static navigationOptions = {
-    title: 'Trade'
+    title: 'Check Trade List'
   };
 
   async componentWillMount() {
@@ -18,6 +19,7 @@ export default class Trade extends React.Component {
   }
 
   render() {
+    const { screenProps } = this.props;
     const { hasCameraPermission } = this.state;
 
     if (hasCameraPermission === null) {
@@ -27,6 +29,8 @@ export default class Trade extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
+
+
           <BarCodeScanner
             onBarCodeRead={this._handleBarCodeRead}
             style={StyleSheet.absoluteFill}
@@ -37,7 +41,10 @@ export default class Trade extends React.Component {
   }
 
   _handleBarCodeRead = ({ type, data }) => {
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    screenProps.updateTradeList(JSON.parse(data));
+    navigate('TradeList');
   }
 }
 

@@ -30,7 +30,9 @@ export default class App extends React.Component {
     if(this.state.wishlist[0] === "Nothing in the list") {
       newList = [];
     }
-    newList.push(str);
+    if(str) {
+      newList.push(str);
+    }
     this.setState({
       wishlist: newList
     });

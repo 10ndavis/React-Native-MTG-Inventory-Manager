@@ -17,6 +17,12 @@
     },
     "ios": {
       "supportsTablet": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.nbdstudios.magicinventorymanager"
+    },
+    "android": {
+      "package": "com.nbdstudios.magicinventorymanager"
     }
   }
 }

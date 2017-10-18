@@ -17,6 +17,10 @@ export default class WishList extends React.Component {
     this.setState({modalVisible: visible});
   }
 
+  clearText(fieldName) {
+    this.refs[fieldName].setNativeProps({text: ''});
+  }
+
   render() {
     const { screenProps } = this.props;
     const { navigate } = this.props.navigation;
@@ -51,9 +55,11 @@ export default class WishList extends React.Component {
           style={{height: 40, width: 200, borderColor: 'gray', borderWidth: 1}}
           onChangeText={(text) => this.setState({newCard: text})}
           value={this.state.newCard}
+          ref={'newCard'}
         />
         <Button title="addCard" onPress={() => {
           screenProps.updateWishList(this.state.newCard);
+          this.clearText('newCard');
         }}>Add Card</Button>
       </View>
     );
@@ -61,15 +67,6 @@ export default class WishList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  home: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon: {
-    width: 24,
-    height: 24,
-  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

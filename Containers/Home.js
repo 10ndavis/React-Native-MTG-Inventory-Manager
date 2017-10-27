@@ -1,10 +1,10 @@
 import React from 'react';
-import {Image, StyleSheet, AppRegistry, Text, View, Button } from 'react-native';
+import {Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid } from 'react-native';
 
 
 export default class Home extends React.Component {
 
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     drawerLabel: 'Home',
     drawerIcon: ({ tintColor }) => (
       <Image
@@ -12,13 +12,20 @@ export default class Home extends React.Component {
         style={[styles.icon, {tintColor: tintColor}]}
       />
     ),
-  };
+  });
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
     return (
-      <View style={styles.container}>
-        <Text>Home Page!</Text>
+      <View>
+        <ToolbarAndroid
+          style={styles.toolbar}
+          // logo={require('./app-icon.png')}
+          title="AwesomeApp"
+          actions={[{title: 'Menu', show: 'always'}]}
+          onActionSelected={this.props.openDrawer}
+           />
+        <Text >Home Page!</Text>
       </View>
     );
   }
@@ -39,5 +46,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  toolbar: {
+    height: 56,
+    backgroundColor: '#4883da',
+    }
 });

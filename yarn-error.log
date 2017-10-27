@@ -1,0 +1,43 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+
+PATH: 
+  C:\Python27\;C:\Python27\Scripts;C:\Users\10nda\Downloads\platform-tools;C:\Program Files\MongoDB\Server\3.4\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;%NVM_HOME%;%NVM_SYMLINK%;C:\sqlite\;C:\Program Files\MySQL\MySQL Server 5.7\binC:\Users\10nda\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd;C:\PostgreSQL\pg96\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Users\10nda\AppData\Local\Android\sdk\tools;"C:\Program Files\Git\cmd";C:\Program Files (x86)\Yarn\bin;C:\Users\10nda\scoop\shims;C:\Users\10nda\AppData\Local\Microsoft\WindowsApps;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files\Heroku\bin;C:\Users\10nda\AppData\Roaming\npm;C:\Users\10nda\AppData\Local\atom\bin;C:\Users\10nda\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.2.1
+
+Node version: 
+  7.9.0
+
+Platform: 
+  win32 x64
+
+npm manifest: 
+  {
+    "name": "magicinventorymanager",
+    "version": "0.0.0",
+    "description": "Hello Expo!",
+    "author": null,
+    "private": true,
+    "main": "node_modules/expo/AppEntry.js",
+    "dependencies": {
+      "expo": "^21.0.0",
+      "firebase": "^4.5.1",
+      "react": "16.0.0-alpha.12",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-21.0.2.tar.gz",
+      "react-native-camera": "^0.10.0",
+      "react-native-qrcode": "^0.2.6",
+      "react-native-qrcode-scanner": "0.0.22",
+      "react-navigation": "^1.0.0-beta.13"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: EPERM: operation not permitted, unlink 'C:\Users\10nda\Documents\GitHub\MTG-Mobile\ReactNativeMIM\magicinventorymanager\node_modules\boom\lib'

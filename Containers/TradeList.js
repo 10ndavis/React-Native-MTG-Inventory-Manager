@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, TouchableHighlight, Image, StyleSheet, AppRegistry, Text, View, Button, TextInput } from 'react-native';
+import {Modal, TouchableHighlight, Image, StyleSheet, AppRegistry, Text, View, Button, TextInput, ToolbarAndroid } from 'react-native';
 import QRCode from 'react-native-qrcode';
 
 export default class TradeList extends React.Component {
@@ -11,12 +11,20 @@ export default class TradeList extends React.Component {
 
   render() {
     const { screenProps } = this.props;
-    const { navigate } = this.props.navigation;
     const tradeListCards = screenProps.tradelist.map((card, index) =>
       <Text key={index}>{card}</Text>
     );
       return (
-        <View style={styles.container}>{tradeListCards}</View>
+        <View>
+          <ToolbarAndroid
+            style={styles.toolbar}
+            // logo={require('./app-icon.png')}
+            title="AwesomeApp"
+            actions={[{title: 'Menu', show: 'always'}]}
+            onActionSelected={this.props.openDrawer}
+             />
+          {tradeListCards}
+        </View>
       )
   }
 }
@@ -36,5 +44,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  toolbar: {
+    height: 56,
+    backgroundColor: '#4883da',
+    }
 });

@@ -29,8 +29,6 @@ export default class CheckForTrades extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-
-
           <BarCodeScanner
             onBarCodeRead={this._handleBarCodeRead}
             style={StyleSheet.absoluteFill}

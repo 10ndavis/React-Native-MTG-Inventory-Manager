@@ -51,9 +51,9 @@ export default class App extends React.Component {
     const LoginScreen = ({ navigation }) => (
       <Login screenProps={screenProps} openDrawer={()=>{navigation.navigate('DrawerOpen')}} />
     );
-    const TradeScreen = ({ navigation }) => (
-      <CheckForTrades screenProps={screenProps} openDrawer={()=>{navigation.navigate('DrawerOpen')}} />
-    );
+    // const TradeScreen = ({ navigation }) => (
+    //   <CheckForTrades screenProps={screenProps} openDrawer={()=>{navigation.navigate('DrawerOpen')}} />
+    // );
     const BindersScreen = ({ navigation }) => (
       <Binders screenProps={screenProps} openDrawer={()=>{navigation.navigate('DrawerOpen')}} />
     );
@@ -80,7 +80,7 @@ export default class App extends React.Component {
       updateWishList: this.updatewishlist.bind(this),
       updateTradeList: this.updatetradelist.bind(this)
     }
-    return <MTGApp />;
+    return <MTGApp screenProps={screenProps}/>;
   }
 }
 

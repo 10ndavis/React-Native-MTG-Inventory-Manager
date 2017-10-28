@@ -28,6 +28,13 @@ export default class WishList extends React.Component {
     );
     return (
       <View>
+        <ToolbarAndroid
+          style={styles.toolbar}
+          // logo={require('./app-icon.png')}
+          title="AwesomeApp"
+          actions={[{title: 'Menu', show: 'always'}]}
+          onActionSelected={this.openDrawer}
+           />
         <Modal
           animationType="slide"
           transparent={false}
@@ -46,13 +53,6 @@ export default class WishList extends React.Component {
           </View>
          </View>
         </Modal>
-        <ToolbarAndroid
-          style={styles.toolbar}
-          // logo={require('./app-icon.png')}
-          title="AwesomeApp"
-          actions={[{title: 'Menu', show: 'always'}]}
-          onActionSelected={this.props.openDrawer}
-           />
         <View>{wishListCards}</View>
         <Button title="share" onPress={() => {
           this.setModalVisible(true)
@@ -69,6 +69,11 @@ export default class WishList extends React.Component {
         }}>Add Card</Button>
       </View>
     );
+  }
+  openDrawer = () => {
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    navigate('DrawerToggle');
   }
 }
 

@@ -21,11 +21,16 @@ export default class TradeList extends React.Component {
             // logo={require('./app-icon.png')}
             title="AwesomeApp"
             actions={[{title: 'Menu', show: 'always'}]}
-            onActionSelected={this.props.openDrawer}
+            onActionSelected={this.openDrawer}
              />
           {tradeListCards}
         </View>
       )
+  }
+  openDrawer = () => {
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    navigate('DrawerToggle');
   }
 }
 

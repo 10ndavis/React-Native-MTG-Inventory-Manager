@@ -16,11 +16,16 @@ export default class Binders extends React.Component {
           // logo={require('./app-icon.png')}
           title="AwesomeApp"
           actions={[{title: 'Menu', show: 'always'}]}
-          onActionSelected={this.props.openDrawer}
+          onActionSelected={this.openDrawer}
            />
         <Text>Binders Page!</Text>
       </View>
     );
+  }
+  openDrawer = () => {
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    navigate('DrawerToggle');
   }
 }
 

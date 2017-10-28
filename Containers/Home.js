@@ -4,15 +4,11 @@ import {Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid } fro
 
 export default class Home extends React.Component {
 
-  static navigationOptions = ({ navigation }) => ({
-    drawerLabel: 'Home',
-    drawerIcon: ({ tintColor }) => (
-      <Image
-        source={require('./mtgIcon.png')}
-        style={[styles.icon, {tintColor: tintColor}]}
-      />
-    ),
-  });
+
+  static navigationOptions = {
+    title: 'Home'
+  };
+
 
   render() {
     const { screenProps } = this.props;
@@ -23,13 +19,20 @@ export default class Home extends React.Component {
           // logo={require('./app-icon.png')}
           title="AwesomeApp"
           actions={[{title: 'Menu', show: 'always'}]}
-          onActionSelected={this.props.openDrawer}
+          onActionSelected={this.openDrawer}
            />
         <Text >Home Page!</Text>
       </View>
     );
   }
+  openDrawer = () => {
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    navigate('DrawerToggle');
+  }
 }
+
+
 
 const styles = StyleSheet.create({
   home: {

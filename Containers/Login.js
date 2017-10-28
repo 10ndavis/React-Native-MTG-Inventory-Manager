@@ -15,11 +15,16 @@ export default class Login extends React.Component {
           // logo={require('./app-icon.png')}
           title="AwesomeApp"
           actions={[{title: 'Menu', show: 'always'}]}
-          onActionSelected={this.props.openDrawer}
+          onActionSelected={this.openDrawer}
            />
         <Text>Login Page!</Text>
       </View>
     );
+  }
+  openDrawer = () => {
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    navigate('DrawerToggle');
   }
 }
 

@@ -15,7 +15,13 @@ export default class CheckForTrades extends React.Component {
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    if(screenProps.loginStatus === false) {
+      navigate('LoginLogout');
+    } else {
+        this.setState({ hasCameraPermission: status === 'granted' });
+    }
   }
 
   render() {

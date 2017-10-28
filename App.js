@@ -1,8 +1,8 @@
 import React from 'react';
-import {StatusBar, StyleSheet, Text, View } from 'react-native';
+import {ToastAndroid, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { DrawerNavigator } from 'react-navigation';
 import Home from './Containers/Home.js';
-import Login from './Containers/Login.js';
+import LoginLogout from './Containers/LoginLogoutContainer.js';
 import CheckForTrades from './Containers/Trade.js';
 import Binders from './Containers/Binders.js';
 import WishList from './Containers/WishList.js';
@@ -10,11 +10,11 @@ import TradeList from './Containers/TradeList.js';
 
 const MTGApp = DrawerNavigator({
   Home: { screen: Home },
-  Login: { screen: Login},
   Trade: { screen: CheckForTrades},
   Binders: { screen: Binders},
   WishList: { screen: WishList},
-  TradeList: {screen: TradeList}
+  TradeList: {screen: TradeList},
+  LoginLogout: {screen: LoginLogout}
 });
 
 export default class App extends React.Component {
@@ -22,8 +22,23 @@ export default class App extends React.Component {
   state = {
       wishlist: ["Nothing in the list"],
       username: "Test Username",
-      tradelist: ["Nothing in the list"]
+      tradelist: ["Nothing in the list"],
+      loggedIn: false
     };
+
+  loginSuccess() {
+    this.setState({
+      loggedIn: true
+    });
+    ToastAndroid.show('Login Success', ToastAndroid.SHORT);
+  }
+
+  logoutSuccess() {
+    this.setState({
+      loggedIn: false
+    });
+    ToastAndroid.show('Logout Success', ToastAndroid.SHORT);
+  }
 
   updatewishlist(str) {
     let newList = this.state.wishlist;
@@ -55,7 +70,10 @@ export default class App extends React.Component {
       username: this.state.username,
       tradelist: this.state.tradelist,
       updateWishList: this.updatewishlist.bind(this),
-      updateTradeList: this.updatetradelist.bind(this)
+      updateTradeList: this.updatetradelist.bind(this),
+      loginSuccess: this.loginSuccess.bind(this),
+      logoutSuccess: this.logoutSuccess.bind(this),
+      loginStatus: this.state.loggedIn
     }
     return <MTGApp screenProps={screenProps}/>;
   }

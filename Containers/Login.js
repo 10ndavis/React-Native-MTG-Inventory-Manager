@@ -1,30 +1,56 @@
 import React from 'react';
-import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid } from 'react-native';
+import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid,TextInput, ToastAndroid} from 'react-native';
 
 
 export default class Login extends React.Component {
-  static navigationOptions = {
-    title: 'Login'
-  };
+
+  state = {
+    email: "",
+    password: ""
+  }
 
   render() {
     return (
       <View>
-        <ToolbarAndroid
-          style={styles.toolbar}
-          // logo={require('./app-icon.png')}
-          title="AwesomeApp"
-          actions={[{title: 'Menu', show: 'always'}]}
-          onActionSelected={this.openDrawer}
-           />
         <Text>Login Page!</Text>
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(email) => this.setState({email})}
+          value={this.state.email}
+          placeholder={"Email"}
+        />
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(password) => this.setState({password})}
+          value={this.state.password}
+          placeholder={"Password"}
+        />
+        <Button title="login" onPress={this.login}></Button>
       </View>
     );
   }
-  openDrawer = () => {
-    const { navigate } = this.props.navigation;
+
+  login = () => {
+    const navigate = this.props.navigate;
     const { screenProps } = this.props;
-    navigate('DrawerToggle');
+
+    fetch('https://prod-mtg-app.herokuapp.com/signin', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+      })
+    }).then(function(response) {
+    let token = JSON.parse(response._bodyText);
+    screenProps.loginSuccess();
+    navigate('Home');
+  }).catch((error) => {
+      ToastAndroid.show('Invalid Username or Password', ToastAndroid.SHORT);
+  });
   }
 }
 

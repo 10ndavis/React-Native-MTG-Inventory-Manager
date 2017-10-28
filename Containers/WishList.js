@@ -13,6 +13,14 @@ export default class WishList extends React.Component {
     title: 'Wish List',
   });
 
+  componentWillMount() {
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    if(screenProps.loginStatus === false) {
+      navigate('LoginLogout');
+    }
+  }
+
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }

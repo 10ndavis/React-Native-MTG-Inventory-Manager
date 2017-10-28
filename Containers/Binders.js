@@ -8,6 +8,14 @@ export default class Binders extends React.Component {
     drawerLabel: 'Binders'
   });
 
+  componentWillMount() {
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    if(screenProps.loginStatus === false) {
+      navigate('LoginLogout');
+    }
+  }
+  
   render() {
     return (
       <View>

@@ -27,7 +27,7 @@ export default class Home extends React.Component {
           actions={[{title: 'Menu', show: 'always'}]}
           onActionSelected={this.openDrawer}
            />
-        <Text >Home Page!</Text>
+        <Text>Home Page!</Text>
       </View>
     );
   }

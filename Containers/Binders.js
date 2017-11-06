@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid } from 'react-native';
-
+import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, TouchableOpacit, ToastAndroid } from 'react-native';
+import { Camera, Permissions } from 'expo';
 
 export default class Binders extends React.Component {
 
@@ -8,32 +8,74 @@ export default class Binders extends React.Component {
     drawerLabel: 'Binders'
   });
 
-  componentWillMount() {
+  state = {
+    hasCameraPermission: null,
+    type: Camera.Constants.Type.back,
+    image: null,
+  };
+
+  async componentWillMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === 'granted' });
+
     const { navigate } = this.props.navigation;
     const { screenProps } = this.props;
     if(screenProps.loginStatus === false) {
       navigate('LoginLogout');
     }
   }
-  
-  render() {
-    return (
-      <View>
-        <ToolbarAndroid
-          style={styles.toolbar}
-          // logo={require('./app-icon.png')}
-          title="AwesomeApp"
-          actions={[{title: 'Menu', show: 'always'}]}
-          onActionSelected={this.openDrawer}
-           />
-        <Text>Binders Page!</Text>
-      </View>
-    );
-  }
+
   openDrawer = () => {
     const { navigate } = this.props.navigation;
     const { screenProps } = this.props;
     navigate('DrawerToggle');
+  }
+
+  snap = async () => {
+    if (this.camera) {
+      let photo = await this.camera.takePictureAsync({
+        base64: true
+      });
+      ToastAndroid.show('Photo taken, please wait..', ToastAndroid.SHORT);
+      this.setState({image: photo.uri});
+      fetch('https://prod-mtg-app.herokuapp.com/imageSearch', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          image_string: photo.base64
+        })
+      }).then(function(response) {
+        alert(response._bodyText);
+    }).catch((error) => {
+        ToastAndroid.show('Server Side Error, Please try again later..', ToastAndroid.SHORT);
+    });
+    }
+  };
+
+  render() {
+    const { hasCameraPermission } = this.state;
+    if (hasCameraPermission === null) {
+      return <View />;
+    } else if (hasCameraPermission === false) {
+      return <Text>No access to camera</Text>;
+    } else {
+      return (
+        <View style={{ flex: 1 }}>
+          <ToolbarAndroid
+            style={styles.toolbar}
+            // logo={require('./app-icon.png')}
+            title="AwesomeApp"
+            actions={[{title: 'Menu', show: 'always'}]}
+            onActionSelected={this.openDrawer}
+             />
+          <Camera style={{ flex: 1 }} type={this.state.type} ref={ref => { this.camera = ref; }} />
+          <Button title="takePic" onPress={this.snap} />
+        </View>
+      );
+    }
   }
 }
 

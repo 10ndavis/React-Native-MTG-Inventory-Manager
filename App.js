@@ -23,7 +23,7 @@ export default class App extends React.Component {
       wishlist: ["Nothing in the list"],
       username: "Test Username",
       tradelist: ["Nothing in the list"],
-      loggedIn: false
+      loggedIn: true
     };
 
   loginSuccess() {

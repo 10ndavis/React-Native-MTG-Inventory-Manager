@@ -1,6 +1,9 @@
 import React from 'react';
-import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, TouchableOpacit, ToastAndroid } from 'react-native';
+import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, TouchableOpacit, ToastAndroid, ScrollView } from 'react-native';
 import { Camera, Permissions } from 'expo';
+import Navbar from '.././Components/Navbar.js';
+import Cam from '.././Components/Camera.js';
+import ViewBinder from '.././Components/ViewBinder.js';
 
 export default class Binders extends React.Component {
 
@@ -12,14 +15,15 @@ export default class Binders extends React.Component {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
     image: null,
+    binderSelected: false
   };
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-
     const { navigate } = this.props.navigation;
     const { screenProps } = this.props;
+
+    this.setState({ hasCameraPermission: status === 'granted' });
     if(screenProps.loginStatus === false) {
       navigate('LoginLogout');
     }
@@ -31,48 +35,35 @@ export default class Binders extends React.Component {
     navigate('DrawerToggle');
   }
 
-  snap = async () => {
-    if (this.camera) {
-      let photo = await this.camera.takePictureAsync({
-        base64: true
-      });
-      ToastAndroid.show('Photo taken, please wait..', ToastAndroid.SHORT);
-      this.setState({image: photo.uri});
-      fetch('https://prod-mtg-app.herokuapp.com/imageSearch', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          image_string: photo.base64
-        })
-      }).then(function(response) {
-        alert(response._bodyText);
-    }).catch((error) => {
-        ToastAndroid.show('Server Side Error, Please try again later..', ToastAndroid.SHORT);
-    });
-    }
-  };
+  binderMap() {
+    const { screenProps } = this.props;
+    return screenProps.binders.map(function(binder, i){
+    return(
+      <View style={styles.binder} key={i}>
+        <Text>{binder.name}</Text>
+      </View>
+    );
+  });
+  }
 
   render() {
-    const { hasCameraPermission } = this.state;
-    if (hasCameraPermission === null) {
-      return <View />;
-    } else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
+    const { hasCameraPermission, binderSelected } = this.state;
+    const { screenProps } = this.props;
+
+    if(binderSelected) {
+      return (
+        <View>
+          <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
+          <ViewBinder binder={binderSelected}/>
+        </View>
+      )
     } else {
       return (
-        <View style={{ flex: 1 }}>
-          <ToolbarAndroid
-            style={styles.toolbar}
-            // logo={require('./app-icon.png')}
-            title="AwesomeApp"
-            actions={[{title: 'Menu', show: 'always'}]}
-            onActionSelected={this.openDrawer}
-             />
-          <Camera style={{ flex: 1 }} type={this.state.type} ref={ref => { this.camera = ref; }} />
-          <Button title="takePic" onPress={this.snap} />
+        <View style={{flex: 1}}>
+          <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
+          <ScrollView>
+            {this.binderMap()}
+          </ScrollView>
         </View>
       );
     }
@@ -98,5 +89,16 @@ const styles = StyleSheet.create({
   toolbar: {
     height: 56,
     backgroundColor: '#4883da',
-    }
+  },
+  binder: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 30,
+    margin: 20,
+    borderColor: '#2a4944',
+    borderWidth: 1,
+    backgroundColor: 'white',
+    height: 300
+  },
 });

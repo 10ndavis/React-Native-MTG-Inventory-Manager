@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid } from 'react-native';
-
+import Navbar from '.././Components/Navbar.js'
 
 export default class Home extends React.Component {
 
@@ -19,18 +19,21 @@ export default class Home extends React.Component {
 
   render() {
     const { screenProps } = this.props;
+    const { navigate } = this.props.navigation;
     return (
       <View>
-        <ToolbarAndroid
-          style={styles.toolbar}
-          title="AwesomeApp"
-          actions={[{title: 'Menu', show: 'always'}]}
-          onActionSelected={this.openDrawer}
-           />
-        <Text>Home Page!</Text>
+        <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
+        <Button title="test" onPress={this.test}>Test</Button>
       </View>
     );
   }
+
+  test = () => {
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    navigate('View Binder')
+  }
+
   openDrawer = () => {
     const { navigate } = this.props.navigation;
     const { screenProps } = this.props;

@@ -23,7 +23,9 @@ export default class App extends React.Component {
       wishlist: ["Nothing in the list"],
       username: "Test Username",
       tradelist: ["Nothing in the list"],
-      loggedIn: true
+      loggedIn: true,
+      binders: [{name: 'Binder One'}, {name: 'Binder Two'}, {name: 'Binder Three'},
+      {name: 'Binder Four'}]
     };
 
   loginSuccess() {
@@ -63,9 +65,17 @@ export default class App extends React.Component {
      StatusBar.setHidden(true);
   }
 
+//   async componentWillMount() {
+//   await Expo.Font.loadAsync({
+//     'Roboto': require('native-base/Fonts/Roboto.ttf'),
+//     'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+//   });
+// }
+
 
   render() {
     const screenProps = {
+      title: "MIM",
       wishlist: this.state.wishlist,
       username: this.state.username,
       tradelist: this.state.tradelist,
@@ -73,7 +83,8 @@ export default class App extends React.Component {
       updateTradeList: this.updatetradelist.bind(this),
       loginSuccess: this.loginSuccess.bind(this),
       logoutSuccess: this.logoutSuccess.bind(this),
-      loginStatus: this.state.loggedIn
+      loginStatus: this.state.loggedIn,
+      binders: this.state.binders
     }
     return <MTGApp screenProps={screenProps}/>;
   }

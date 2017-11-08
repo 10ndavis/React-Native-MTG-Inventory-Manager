@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal, TouchableHighlight, Image, StyleSheet, AppRegistry, Text, View, Button, TextInput, ToolbarAndroid } from 'react-native';
 import QRCode from 'react-native-qrcode';
-
+import Navbar from '.././Components/Navbar.js';
 export default class WishList extends React.Component {
 
   state = {
@@ -36,13 +36,7 @@ export default class WishList extends React.Component {
     );
     return (
       <View>
-        <ToolbarAndroid
-          style={styles.toolbar}
-          // logo={require('./app-icon.png')}
-          title="AwesomeApp"
-          actions={[{title: 'Menu', show: 'always'}]}
-          onActionSelected={this.openDrawer}
-           />
+        <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
         <Modal
           animationType="slide"
           transparent={false}

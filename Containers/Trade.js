@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
+import Navbar from '.././Components/Navbar.js';
 
 export default class CheckForTrades extends React.Component {
 
@@ -12,6 +13,12 @@ export default class CheckForTrades extends React.Component {
   static navigationOptions = {
     title: 'Check Trade List'
   };
+
+  openDrawer = () => {
+    const { navigate } = this.props.navigation;
+    const { screenProps } = this.props;
+    navigate('DrawerToggle');
+  }
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -35,9 +42,10 @@ export default class CheckForTrades extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
+          <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
           <BarCodeScanner
             onBarCodeRead={this._handleBarCodeRead}
-            style={StyleSheet.absoluteFill}
+            style={styles.barcode}
           />
         </View>
       );
@@ -59,4 +67,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  barcode: {
+    flex: 1
+  }
 });

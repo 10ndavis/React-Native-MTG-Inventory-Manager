@@ -52,14 +52,14 @@ export default class Binders extends React.Component {
 
     if(binderSelected) {
       return (
-        <View>
+        <View style={styles.theme}>
           <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
           <ViewBinder binder={binderSelected}/>
         </View>
       )
     } else {
       return (
-        <View style={{flex: 1}}>
+        <View style={styles.theme}>
           <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
           <ScrollView>
             {this.binderMap()}
@@ -71,14 +71,9 @@ export default class Binders extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  home: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon: {
-    width: 24,
-    height: 24,
+  theme: {
+    backgroundColor: "#E1E2E1",
+    flex: 1
   },
   container: {
     flex: 1,

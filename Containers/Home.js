@@ -21,7 +21,7 @@ export default class Home extends React.Component {
     const { screenProps } = this.props;
     const { navigate } = this.props.navigation;
     return (
-      <View>
+      <View style={styles.theme}>
         <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
       </View>
     );
@@ -37,23 +37,8 @@ export default class Home extends React.Component {
 
 
 const styles = StyleSheet.create({
-  home: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon: {
-    width: 24,
-    height: 24,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  toolbar: {
-    height: 56,
-    backgroundColor: '#4883da',
-    }
+  theme: {
+    backgroundColor: "#E1E2E1",
+    flex: 1
+  }
 });

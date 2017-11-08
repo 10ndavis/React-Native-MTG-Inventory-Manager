@@ -23,15 +23,8 @@ export default class Home extends React.Component {
     return (
       <View>
         <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
-        <Button title="test" onPress={this.test}>Test</Button>
       </View>
     );
-  }
-
-  test = () => {
-    const { navigate } = this.props.navigation;
-    const { screenProps } = this.props;
-    navigate('View Binder')
   }
 
   openDrawer = () => {

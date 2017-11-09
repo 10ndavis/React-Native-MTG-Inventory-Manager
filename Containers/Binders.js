@@ -3,7 +3,7 @@ import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, Tou
 import { Camera, Permissions } from 'expo';
 import Navbar from '.././Components/Navbar.js';
 import Cam from '.././Components/Camera.js';
-import ViewBinder from '.././Components/ViewBinder.js';
+import Binder from '.././Components/Binder.js';
 
 export default class Binders extends React.Component {
 
@@ -35,15 +35,21 @@ export default class Binders extends React.Component {
     navigate('DrawerToggle');
   }
 
+  updateBinder(binder) {
+    this.setState({
+      binderSelected: binder
+    })
+  }
+
   binderMap() {
     const { screenProps } = this.props;
     return screenProps.binders.map(function(binder, i){
     return(
-      <View style={styles.binder} key={i}>
-        <Text>{binder.name}</Text>
+      <View key={i} style={styles.binder}>
+        <Binder binder={binder} updateBinder={this.updateBinder.bind(this)}/>
       </View>
     );
-  });
+  }, this);
   }
 
   render() {
@@ -54,7 +60,7 @@ export default class Binders extends React.Component {
       return (
         <View style={styles.theme}>
           <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
-          <ViewBinder binder={binderSelected}/>
+          <Binder binder={this.state.binderSelected}/>
         </View>
       )
     } else {
@@ -89,7 +95,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 30,
     margin: 20,
     borderColor: '#2a4944',
     borderWidth: 1,

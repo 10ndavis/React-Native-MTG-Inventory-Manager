@@ -46,7 +46,10 @@ export default class Binders extends React.Component {
     return screenProps.binders.map(function(binder, i){
     return(
       <View key={i} style={styles.binder}>
-        <Binder binder={binder} updateBinder={this.updateBinder.bind(this)}/>
+        <Binder binder={binder}/>
+        <Button title="select binder" onPress={()=>{this.updateBinder(binder)}}>
+          <View>View</View>
+        </Button>
       </View>
     );
   }, this);
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
   },
   binder: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
     margin: 20,
     borderColor: '#2a4944',

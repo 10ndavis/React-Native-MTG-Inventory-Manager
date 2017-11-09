@@ -14,9 +14,7 @@ export default class Binder extends React.Component {
 
     return (
       <View style={styles.binder}>
-        <TouchableHighlight onPress={()=>{updateBinder(binder)}}>
-          <Text>{binder.name}</Text>
-        </TouchableHighlight>
+        <Text>{binder.name}</Text>
       </View>
     )
   }
@@ -28,9 +26,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   binder: {
-    flex: 1,
-    height: 300,
-    padding: 30,
+    // flex: 1,
+    // height: 300,
+    // padding: 30,
   }
 
 });

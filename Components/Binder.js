@@ -7,39 +7,59 @@ import Card from './Card.js';
 export default class Binder extends React.Component {
 
   state = {
-
+    cardSelected: null
   };
 
+
+  selectCard(card) {
+    this.setState({
+      cardSelected: card
+    })
+  }
 
   cardMap() {
     const { binder, screenProps } = this.props;
     return binder.cards.map(function(card, i){
     return(
-        <View style={styles.card} key={i}>
-          <Card screenProps={screenProps} card={card} />
-        </View>
+        <TouchableHighlight onPress={()=>{this.selectCard(card)}} style={styles.card} key={i}>
+          <View><Card screenProps={screenProps} card={card} /></View>
+        </TouchableHighlight>
       );
     }, this);
   }
 
   render() {
     const { screenProps, binder, updateBinder } = this.props;
+    const { cardSelected } = this.state;
 
-    return (
-      <ThemeProvider uiTheme={screenProps.uiTheme}>
-        <View style={styles.binder}>
-          <Text>{binder.title}</Text>
-            <ScrollView>
-              <View style={styles.cardListOuter}>
-                <View style={styles.cardList}>
-                  {this.cardMap()}
-                </View>
-              </View>
-            </ScrollView>
-          <ActionButton />
+    if(cardSelected) {
+      return (
+        <View style={styles.selectedCard}>
+          <Image
+            style={{flex:1, height: undefined, width: undefined}}
+            source={{uri:'http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=' + cardSelected.url + '&type=card'}}
+          />
         </View>
-      </ThemeProvider>
-    )
+      )
+    } else {
+      return (
+        <ThemeProvider uiTheme={screenProps.uiTheme}>
+          <View style={styles.binder}>
+            <Text>{binder.title}</Text>
+              <ScrollView>
+                <View style={styles.cardListOuter}>
+                  <View style={styles.cardList}>
+                    {this.cardMap()}
+                  </View>
+                </View>
+              </ScrollView>
+            <ActionButton />
+          </View>
+        </ThemeProvider>
+      )
+    }
+
+
   }
 }
 
@@ -65,6 +85,9 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 5
+  },
+  selectedCard: {
+    flex: 1,
   }
 
 });

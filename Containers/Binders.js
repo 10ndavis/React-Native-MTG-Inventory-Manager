@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, TouchableOpacit, ToastAndroid, ScrollView } from 'react-native';
+import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, TouchableHighlight, ToastAndroid, ScrollView } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import Navbar from '.././Components/Navbar.js';
 import Cam from '.././Components/Camera.js';
@@ -45,12 +45,9 @@ export default class Binders extends React.Component {
     const { screenProps } = this.props;
     return screenProps.binders.map(function(binder, i){
     return(
-      <View key={i} style={styles.binder}>
+      <TouchableHighlight onPress={()=>{this.updateBinder(binder)}} key={i} style={styles.binder}>
         <Text>{binder.title}</Text>
-        <Button title="select binder" onPress={()=>{this.updateBinder(binder)}}>
-
-        </Button>
-      </View>
+      </TouchableHighlight>
     );
   }, this);
   }
@@ -95,6 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4883da',
   },
   binder: {
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',

@@ -91,8 +91,8 @@ export default class Login extends React.Component {
     } else if(token === "Email") {
         ToastAndroid.show('Email already in use', ToastAndroid.SHORT);
     } else {
-      screenProps.loginSuccess(response);
-      navigate('Home');
+      screenProps.loginSuccess(token);
+      navigate('Binders');
     }
   }).catch((error) => {
       console.log(error);

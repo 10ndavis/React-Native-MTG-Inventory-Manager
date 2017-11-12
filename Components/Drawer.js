@@ -18,7 +18,6 @@ export default class Drawer extends React.Component {
         { screenProps.loginStatus === true
           ? <View>
               <View style={styles.group}>
-                <Text style={styles.listItem} onPress={this.navigateToScreen('Home')}>Home</Text>
                 <Text style={styles.listItem} onPress={this.navigateToScreen('Binders')}>Binders</Text>
                 <Text style={styles.listItem} onPress={this.navigateToScreen('Trade')}>Check Trade List</Text>
                 <Text style={styles.listItem} onPress={this.navigateToScreen('WishList')}>Share Wish List</Text>

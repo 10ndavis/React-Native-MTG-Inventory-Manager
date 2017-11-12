@@ -10,9 +10,8 @@ import TradeList from './Containers/TradeList.js';
 import Drawer from './Components/Drawer.js';
 
 const MTGApp = DrawerNavigator({
-    Home: { screen: Home },
-    Trade: { screen: CheckForTrades},
     Binders: { screen: Binders},
+    Trade: { screen: CheckForTrades},
     WishList: { screen: WishList},
     TradeList: {screen: TradeList},
     LoginLogout: {screen: LoginLogout}
@@ -29,16 +28,30 @@ export default class App extends React.Component {
       wishlist: ["Nothing in the list"],
       username: "Test Username",
       tradelist: ["Nothing in the list"],
-      loggedIn: true,
-      binders: [{name: 'Binder One'}, {name: 'Binder Two'}, {name: 'Binder Three'},
-      {name: 'Binder Four'}],
+      loggedIn: false,
+      binders: [{
+        "cards": [
+          {
+            "quantity": 12,
+            "title": "Black Lotus",
+            "url": 3,
+          },
+          {
+            "quantity": 12,
+            "title": "Camouflage",
+            "url": 143,
+          }
+        ],
+        "description": "Green Cards",
+        "title": "Binder1",
+      }],
     };
 
   loginSuccess(token) {
     this.setState({
-      loggedIn: true
+      loggedIn: true,
+      binders: token.collection
     });
-    // console.log(token);
     ToastAndroid.show('Login Success', ToastAndroid.SHORT);
   }
 

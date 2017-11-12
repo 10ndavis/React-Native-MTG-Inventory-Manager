@@ -46,7 +46,7 @@ export default class Binders extends React.Component {
     return screenProps.binders.map(function(binder, i){
     return(
       <View key={i} style={styles.binder}>
-        <Text>{binder.name}</Text>
+        <Text>{binder.title}</Text>
         <Button title="select binder" onPress={()=>{this.updateBinder(binder)}}>
 
         </Button>

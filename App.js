@@ -7,15 +7,21 @@ import CheckForTrades from './Containers/Trade.js';
 import Binders from './Containers/Binders.js';
 import WishList from './Containers/WishList.js';
 import TradeList from './Containers/TradeList.js';
+import Drawer from './Components/Drawer.js';
 
 const MTGApp = DrawerNavigator({
-  Home: { screen: Home },
-  Trade: { screen: CheckForTrades},
-  Binders: { screen: Binders},
-  WishList: { screen: WishList},
-  TradeList: {screen: TradeList},
-  LoginLogout: {screen: LoginLogout}
-});
+    Home: { screen: Home },
+    Trade: { screen: CheckForTrades},
+    Binders: { screen: Binders},
+    WishList: { screen: WishList},
+    TradeList: {screen: TradeList},
+    LoginLogout: {screen: LoginLogout}
+  },
+  {
+    contentComponent: Drawer,
+    drawerWidth: 300
+  }
+);
 
 export default class App extends React.Component {
 
@@ -25,13 +31,14 @@ export default class App extends React.Component {
       tradelist: ["Nothing in the list"],
       loggedIn: true,
       binders: [{name: 'Binder One'}, {name: 'Binder Two'}, {name: 'Binder Three'},
-      {name: 'Binder Four'}]
+      {name: 'Binder Four'}],
     };
 
-  loginSuccess() {
+  loginSuccess(token) {
     this.setState({
       loggedIn: true
     });
+    // console.log(token);
     ToastAndroid.show('Login Success', ToastAndroid.SHORT);
   }
 
@@ -84,7 +91,22 @@ export default class App extends React.Component {
       loginSuccess: this.loginSuccess.bind(this),
       logoutSuccess: this.logoutSuccess.bind(this),
       loginStatus: this.state.loggedIn,
-      binders: this.state.binders
+      binders: this.state.binders,
+      uiTheme: {
+        palette: {
+            primaryColor: '#546e7a'
+        },
+        toolbar: {
+            container: {
+                height: 50,
+            },
+        },
+        actionButton: {
+          container: {
+            backgroundColor: '#546e7a',
+          }
+        }
+      }
     }
     return <MTGApp screenProps={screenProps}/>;
   }

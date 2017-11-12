@@ -2,31 +2,21 @@ import React from 'react';
 import {Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid } from 'react-native';
 import { COLOR, Toolbar, ThemeProvider } from 'react-native-material-ui';
 
-const uiTheme = {
-  palette: {
-      primaryColor: '#546e7a',
-  },
-  toolbar: {
-      container: {
-          height: 50,
-      },
-  },
-};
 
 export default class Navbar extends React.Component {
 
   componentWillMount() {
-    const { navigate } = this.props.navigate;
-    const { screenProps } = this.props;
-    if(screenProps.loginStatus === false) {
-      navigate('LoginLogout');
-    }
+    // const { navigate } = this.props.navigate;
+    // const { screenProps } = this.props;
+    // if(screenProps.loginStatus === false) {
+    //   navigate('LoginLogout');
+    // }
   }
 
   render() {
     const { screenProps } = this.props;
     return (
-        <ThemeProvider uiTheme={uiTheme}>
+        <ThemeProvider uiTheme={screenProps.uiTheme}>
           <View>
             <Toolbar
               leftElement="menu"

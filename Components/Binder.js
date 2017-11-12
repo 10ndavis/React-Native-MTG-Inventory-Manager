@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, TouchableHighlight, ToastAndroid, ScrollView } from 'react-native';
-
+import { ActionButton, ThemeProvider } from 'react-native-material-ui';
 
 export default class Binder extends React.Component {
 
@@ -13,9 +13,12 @@ export default class Binder extends React.Component {
     const { screenProps, binder, updateBinder } = this.props;
 
     return (
-      <View style={styles.binder}>
-        <Text>{binder.name}</Text>
-      </View>
+      <ThemeProvider uiTheme={screenProps.uiTheme}>
+        <View style={styles.binder}>
+          <Text>{binder.name}</Text>
+          <ActionButton />
+        </View>
+      </ThemeProvider>
     )
   }
 }
@@ -26,9 +29,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   binder: {
-    // flex: 1,
-    // height: 300,
-    // padding: 30,
+    flex: 1,
+    height: 300,
+    padding: 30,
   }
 
 });

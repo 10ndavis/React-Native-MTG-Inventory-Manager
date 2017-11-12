@@ -46,9 +46,9 @@ export default class Binders extends React.Component {
     return screenProps.binders.map(function(binder, i){
     return(
       <View key={i} style={styles.binder}>
-        <Binder binder={binder}/>
+        <Text>{binder.name}</Text>
         <Button title="select binder" onPress={()=>{this.updateBinder(binder)}}>
-          <View>View</View>
+
         </Button>
       </View>
     );
@@ -63,7 +63,7 @@ export default class Binders extends React.Component {
       return (
         <View style={styles.theme}>
           <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
-          <Binder binder={this.state.binderSelected}/>
+          <Binder screenProps={screenProps} binder={this.state.binderSelected}/>
         </View>
       )
     } else {
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4883da',
   },
   binder: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
     margin: 20,

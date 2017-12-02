@@ -16,7 +16,7 @@ export default class Card extends React.Component {
         <View style={styles.card}>
           <Image
             style={{flex:1, height: undefined, width: undefined}}
-            source={{uri:'http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=' + card.url + '&type=card'}}
+            source={{uri: card.url }}
           />
         </View>
       </ThemeProvider>

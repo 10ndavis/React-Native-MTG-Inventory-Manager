@@ -37,7 +37,7 @@ export default class Binder extends React.Component {
         <View style={styles.selectedCard}>
           <Image
             style={{flex:1, height: undefined, width: undefined}}
-            source={{uri:'http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=' + cardSelected.url + '&type=card'}}
+            source={{uri:cardSelected.url}}
           />
         </View>
       )

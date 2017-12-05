@@ -4,6 +4,7 @@ import { Camera, Permissions } from 'expo';
 import Navbar from '.././Components/Navbar.js';
 import Cam from '.././Components/Camera.js';
 import Binder from '.././Components/Binder.js';
+import { ActionButton, ThemeProvider } from 'react-native-material-ui';
 
 export default class Binders extends React.Component {
 
@@ -24,9 +25,10 @@ export default class Binders extends React.Component {
     const { screenProps } = this.props;
 
     this.setState({ hasCameraPermission: status === 'granted' });
-    if(screenProps.loginStatus === false) {
-      navigate('LoginLogout');
-    }
+  }
+
+  handleAction(action) {
+    // alert(action);
   }
 
   openDrawer = () => {
@@ -65,12 +67,23 @@ export default class Binders extends React.Component {
       )
     } else {
       return (
-        <View style={styles.theme}>
-          <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
-          <ScrollView>
-            {this.binderMap()}
-          </ScrollView>
-        </View>
+        <ThemeProvider uiTheme={screenProps.uiTheme}>
+          <View style={styles.theme}>
+            <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
+            <ScrollView>
+              {this.binderMap()}
+            </ScrollView>
+            <ActionButton
+              actions={[
+                  { icon: 'add-box', label: 'Add Binder' },
+                  { icon: 'delete', label: 'Delete Binders' },
+              ]}
+              onPress={(action) => {
+                this.handleAction(action);
+              }}
+              transition="speedDial" />
+          </View>
+        </ThemeProvider>
       );
     }
   }

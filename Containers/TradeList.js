@@ -11,9 +11,6 @@ export default class TradeList extends React.Component {
   componentWillMount() {
     const { navigate } = this.props.navigation;
     const { screenProps } = this.props;
-    if(screenProps.loginStatus === false) {
-      navigate('LoginLogout');
-    }
   }
 
   render() {

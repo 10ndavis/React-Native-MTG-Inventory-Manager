@@ -12,9 +12,6 @@ export default class Home extends React.Component {
   componentWillMount() {
     const { navigate } = this.props.navigation;
     const { screenProps } = this.props;
-    if(screenProps.loginStatus === false) {
-      navigate('LoginLogout');
-    }
   }
 
   render() {

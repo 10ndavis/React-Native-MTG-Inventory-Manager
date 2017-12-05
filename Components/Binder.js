@@ -1,21 +1,29 @@
 import React from 'react';
 import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, TouchableHighlight, ToastAndroid, ScrollView } from 'react-native';
 import { ActionButton, ThemeProvider } from 'react-native-material-ui';
+
+
 import Card from './Card.js';
 
 
 export default class Binder extends React.Component {
 
-  state = {
+constructor(props) {
+  super(props)
+  this.state = {
     cardSelected: null
   };
+}
 
+selectCard(card) {
+  this.setState({
+    cardSelected: card
+  })
+}
 
-  selectCard(card) {
-    this.setState({
-      cardSelected: card
-    })
-  }
+handleAction(action) {
+  // alert(action);
+}
 
   cardMap() {
     const { binder, screenProps } = this.props;
@@ -34,10 +42,11 @@ export default class Binder extends React.Component {
 
     if(cardSelected) {
       return (
-        <View style={styles.selectedCard}>
+        <View style={styles.selectedCardWrapper}>
           <Image
-            style={{flex:1, height: undefined, width: undefined}}
+            style={styles.selectedCard}
             source={{uri:cardSelected.url}}
+            resizeMode="contain"
           />
         </View>
       )
@@ -53,13 +62,21 @@ export default class Binder extends React.Component {
                   </View>
                 </View>
               </ScrollView>
-            <ActionButton />
+            <ActionButton
+              actions={[
+                  { icon: 'favorite', label: 'Favorite' },
+                  { icon: 'add-box', label: 'Add Cards' },
+                  { icon: 'remove-circle', label: 'Remove Cards' },
+                  { icon: 'delete', label: 'Delete Binder' },
+              ]}
+              onPress={(action) => {
+                this.handleAction(action);
+              }}
+              transition="speedDial" />
           </View>
         </ThemeProvider>
       )
     }
-
-
   }
 }
 
@@ -87,7 +104,16 @@ const styles = StyleSheet.create({
     margin: 5
   },
   selectedCard: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'white'
+  },
+  selectedCardWrapper: {
     flex: 1,
+    backgroundColor: 'white'
   }
 
 });

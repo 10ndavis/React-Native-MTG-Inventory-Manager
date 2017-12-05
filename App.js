@@ -8,6 +8,7 @@ import Binders from './Containers/Binders.js';
 import WishList from './Containers/WishList.js';
 import TradeList from './Containers/TradeList.js';
 import Drawer from './Components/Drawer.js';
+import Login from './Containers/Login.js';
 
 const MTGApp = DrawerNavigator({
     Binders: { screen: Binders},
@@ -48,8 +49,10 @@ export default class App extends React.Component {
     };
 
   loginSuccess(token) {
+    console.log(token)
     this.setState({
       loggedIn: true,
+      username: token.username,
       binders: token.collection
     });
     ToastAndroid.show('Login Success', ToastAndroid.SHORT);
@@ -120,6 +123,11 @@ export default class App extends React.Component {
           }
         }
       }
+    }
+    if(!this.state.loggedIn) {
+      return (
+        <Login screenProps={screenProps}/>
+      )
     }
     return <MTGApp screenProps={screenProps}/>;
   }

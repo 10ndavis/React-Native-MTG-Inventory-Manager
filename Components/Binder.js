@@ -73,7 +73,6 @@ handleAction(action) {
         <ThemeProvider uiTheme={screenProps.uiTheme}>
           <View style={styles.binder}>
             <ShareModal binderName={binder.title} username={"test"} modalVisible={modalVisible} setModalVisible={this.setModalVisible} />
-            <Text>{binder.title}</Text>
               <ScrollView>
                 <View style={styles.cardListOuter}>
                   <View style={styles.cardList}>

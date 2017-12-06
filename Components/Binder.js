@@ -1,8 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, TouchableHighlight, ToastAndroid, ScrollView } from 'react-native';
 import { ActionButton, ThemeProvider } from 'react-native-material-ui';
-
-
+import ShareModal from './ShareModal.js';
 import Card from './Card.js';
 
 
@@ -11,8 +10,12 @@ export default class Binder extends React.Component {
 constructor(props) {
   super(props)
   this.state = {
-    cardSelected: null
+    cardSelected: null,
+    modalVisible: false,
   };
+
+  this.setModalVisible = this.setModalVisible.bind(this);
+  this.handleAction = this.handleAction.bind(this);
 }
 
 selectCard(card) {
@@ -21,8 +24,23 @@ selectCard(card) {
   })
 }
 
+setModalVisible(visible) {
+  this.setState({modalVisible: visible});
+}
+
+
 handleAction(action) {
-  // alert(action);
+
+  switch(action) {
+    case 'share':
+        this.setModalVisible(true);
+        break;
+    case "test":
+        //doSomething
+        break;
+    default:
+        // alert(action);
+  }
 }
 
   cardMap() {
@@ -37,8 +55,8 @@ handleAction(action) {
   }
 
   render() {
-    const { screenProps, binder, updateBinder } = this.props;
-    const { cardSelected } = this.state;
+    let { screenProps, binder, updateBinder } = this.props;
+    let { cardSelected, modalVisible } = this.state;
 
     if(cardSelected) {
       return (
@@ -54,6 +72,7 @@ handleAction(action) {
       return (
         <ThemeProvider uiTheme={screenProps.uiTheme}>
           <View style={styles.binder}>
+            <ShareModal binderName={binder.title} username={"test"} modalVisible={modalVisible} setModalVisible={this.setModalVisible} />
             <Text>{binder.title}</Text>
               <ScrollView>
                 <View style={styles.cardListOuter}>
@@ -65,6 +84,7 @@ handleAction(action) {
             <ActionButton
               actions={[
                   { icon: 'favorite', label: 'Favorite' },
+                  { icon: 'share', label: 'Share' },
                   { icon: 'add-box', label: 'Add Cards' },
                   { icon: 'remove-circle', label: 'Remove Cards' },
                   { icon: 'delete', label: 'Delete Binder' },

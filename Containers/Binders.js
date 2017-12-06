@@ -61,8 +61,8 @@ export default class Binders extends React.Component {
     if(binderSelected) {
       return (
         <View style={styles.theme}>
-          <Navbar screenProps={screenProps} navigate={this.openDrawer.bind(this)} />
-          <Binder screenProps={screenProps} binder={this.state.binderSelected}/>
+          <Navbar screenProps={screenProps} title={binderSelected.title} navigate={this.openDrawer.bind(this)} />
+          <Binder screenProps={screenProps} binder={binderSelected}/>
         </View>
       )
     } else {

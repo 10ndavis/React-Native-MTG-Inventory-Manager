@@ -14,13 +14,13 @@ export default class Navbar extends React.Component {
   }
 
   render() {
-    const { screenProps } = this.props;
+    const { screenProps, title } = this.props;
     return (
         <ThemeProvider uiTheme={screenProps.uiTheme}>
           <View>
             <Toolbar
               leftElement="menu"
-              centerElement="MIM"
+              centerElement={title || "MIM"}
               onLeftElementPress={this.props.navigate}
             />
           </View>

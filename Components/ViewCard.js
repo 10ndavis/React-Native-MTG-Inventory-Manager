@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, ScrollView, Dimensions} from 'react-native';
+import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, ScrollView, Dimensions } from 'react-native';
 import { ActionButton, ThemeProvider } from 'react-native-material-ui';
 import Card from './Card.js';
 
@@ -9,10 +9,15 @@ export default class ViewCard extends React.Component {
     drawerLabel: 'ViewCard'
   });
 
-  state = {
-    width: null,
-    height: null,
-  };
+
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      width: null,
+      height: null,
+    };
+  }
 
   componentDidMount() {
     const { screenProps } = this.props;

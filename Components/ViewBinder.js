@@ -1,9 +1,9 @@
 import React from 'react';
-import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, TouchableHighlight, ToastAndroid, ScrollView } from 'react-native';
+import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid,
+  TouchableHighlight, ToastAndroid, ScrollView } from 'react-native';
 import { ActionButton, ThemeProvider } from 'react-native-material-ui';
 import ShareModal from './ShareModal.js';
 import Card from './Card.js';
-import { NavigationActions } from 'react-navigation';
 
 export default class ViewBinder extends React.Component {
 
@@ -58,6 +58,7 @@ navigateToScreen = (route) => {
       );
     }, this);
   }
+
 
   render() {
     let { screenProps, updateBinder } = this.props;

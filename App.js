@@ -1,5 +1,5 @@
 import React from 'react';
-import {ToastAndroid, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { ToastAndroid, StatusBar, StyleSheet, Text, View, BackHandler } from 'react-native';
 import { DrawerNavigator } from 'react-navigation';
 import Home from './Containers/Home.js';
 import LoginLogout from './Containers/LoginLogoutContainer.js';
@@ -24,7 +24,8 @@ const MTGApp = DrawerNavigator({
   },
   {
     contentComponent: Drawer,
-    drawerWidth: 300
+    drawerWidth: 300,
+    backBehavior: 'none'
   }
 );
 
@@ -89,6 +90,8 @@ export default class App extends React.Component {
     })
   }
 
+
+
   updatewishlist(str) {
     let newList = this.state.wishlist;
     if(this.state.wishlist[0] === "Nothing in the list") {
@@ -108,9 +111,18 @@ export default class App extends React.Component {
     });
   }
 
-  componentDidMount() {
-     StatusBar.setHidden(true);
-  }
+// goBack() {
+//   console.log("pressed");
+// }
+//
+componentDidMount() {
+  StatusBar.setHidden(true);
+  //BackHandler.addEventListener('hardwareBackPress', this.goBack);
+}
+//
+// componentWillUnmount() {
+//   BackHandler.removeEventListener('hardwareBackPress', this.goBack);
+// }
 
 //   async componentWillMount() {
 //   await Expo.Font.loadAsync({

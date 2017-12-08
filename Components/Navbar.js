@@ -1,16 +1,12 @@
 import React from 'react';
-import {Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid } from 'react-native';
+import {Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, StatusBar } from 'react-native';
 import { COLOR, Toolbar, ThemeProvider } from 'react-native-material-ui';
 
 
 export default class Navbar extends React.Component {
 
   componentWillMount() {
-    // const { navigate } = this.props.navigate;
-    // const { screenProps } = this.props;
-    // if(screenProps.loginStatus === false) {
-    //   navigate('LoginLogout');
-    // }
+
   }
 
   render() {
@@ -18,6 +14,7 @@ export default class Navbar extends React.Component {
     return (
         <ThemeProvider uiTheme={screenProps.uiTheme}>
           <View>
+            <View style={styles.statusBar}></View>
             <Toolbar
               leftElement="menu"
               centerElement={title || "MIM"}
@@ -48,5 +45,9 @@ const styles = StyleSheet.create({
   toolbar: {
     height: 56,
     backgroundColor: '#4883da'
-    }
+  },
+  statusBar: {
+    backgroundColor: 'black',
+    height: StatusBar.currentHeight
+  }
 });

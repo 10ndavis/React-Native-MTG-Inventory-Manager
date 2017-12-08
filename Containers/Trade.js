@@ -51,8 +51,24 @@ export default class CheckForTrades extends React.Component {
   _handleBarCodeRead = ({ type, data }) => {
     const { navigate } = this.props.navigation;
     const { screenProps } = this.props;
-    screenProps.updateTradeList(JSON.parse(data));
-    navigate('TradeList');
+    let dataDecoded = JSON.parse(data)
+
+    fetch('https://prod-mtg-app.herokuapp.com/get_binder', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: dataDecoded.username,
+        binder: dataDecoded.binderName
+      })
+    }).then(function(response) {
+
+    }).catch((error) => {
+        console.log(error);
+        ToastAndroid.show('Server Side Error, Please try again later..', ToastAndroid.SHORT);
+    });
   }
 }
 

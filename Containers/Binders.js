@@ -64,15 +64,6 @@ export default class Binders extends React.Component {
   render() {
     const { hasCameraPermission, binderSelected } = this.state;
     const { screenProps } = this.props;
-
-    if(binderSelected) {
-      return (
-        <View style={styles.theme}>
-          <Navbar screenProps={screenProps} title={binderSelected.title} navigate={this.openDrawer.bind(this)} />
-          <Binder screenProps={screenProps} binder={binderSelected}/>
-        </View>
-      )
-    } else {
       return (
         <ThemeProvider uiTheme={screenProps.uiTheme}>
           <View style={styles.theme}>
@@ -93,7 +84,6 @@ export default class Binders extends React.Component {
         </ThemeProvider>
       );
     }
-  }
 }
 
 const styles = StyleSheet.create({

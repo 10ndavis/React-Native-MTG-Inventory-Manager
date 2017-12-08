@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToastAndroid, StatusBar, StyleSheet, Text, View, BackHandler } from 'react-native';
+import { ToastAndroid, StatusBar, StyleSheet, Text, View, BackHandler, AsyncStorage } from 'react-native';
 import { DrawerNavigator } from 'react-navigation';
 import Home from './Containers/Home.js';
 import LoginLogout from './Containers/LoginLogoutContainer.js';
@@ -25,7 +25,6 @@ const MTGApp = DrawerNavigator({
   {
     contentComponent: Drawer,
     drawerWidth: 300,
-    backBehavior: 'none'
   }
 );
 
@@ -40,6 +39,7 @@ export default class App extends React.Component {
       loggedIn: false,
       currentBinder: null,
       currentCard: null,
+      lastScannedBinder: null,
       binders: [{
         "cards": [
           {
@@ -60,21 +60,24 @@ export default class App extends React.Component {
 
     this.setBinder = this.setBinder.bind(this);
     this.setCard = this.setCard.bind(this);
+    this.setLastScanned = this.setLastScanned.bind(this);
   }
 
-  loginSuccess(token) {
+  async loginSuccess(token) {
     this.setState({
       loggedIn: true,
       username: token.username,
       binders: token.collection
     });
+    await AsyncStorage.setItem('token', JSON.stringify(token));
     ToastAndroid.show('Login Success', ToastAndroid.SHORT);
   }
 
-  logoutSuccess() {
+  async logoutSuccess() {
     this.setState({
       loggedIn: false
     });
+    await AsyncStorage.removeItem('token');
     ToastAndroid.show('Logout Success', ToastAndroid.SHORT);
   }
 
@@ -90,7 +93,11 @@ export default class App extends React.Component {
     })
   }
 
-
+  setLastScanned(binder) {
+    this.setState({
+      lastScannedBinder: binder
+    })
+  }
 
   updatewishlist(str) {
     let newList = this.state.wishlist;
@@ -111,26 +118,21 @@ export default class App extends React.Component {
     });
   }
 
-// goBack() {
-//   console.log("pressed");
-// }
-//
-componentDidMount() {
-  StatusBar.setHidden(true);
-  //BackHandler.addEventListener('hardwareBackPress', this.goBack);
-}
-//
-// componentWillUnmount() {
-//   BackHandler.removeEventListener('hardwareBackPress', this.goBack);
-// }
-
-//   async componentWillMount() {
-//   await Expo.Font.loadAsync({
-//     'Roboto': require('native-base/Fonts/Roboto.ttf'),
-//     'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-//   });
-// }
-
+  async componentDidMount() {
+    try {
+      const token = JSON.parse(await AsyncStorage.getItem('token'));
+      if (token !== null){
+        this.setState({
+          loggedIn: true,
+          username: token.username,
+          binders: token.collection
+        });
+        console.log(token);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   render() {
     const screenProps = {
@@ -146,6 +148,7 @@ componentDidMount() {
       binders: this.state.binders,
       setBinder: this.setBinder,
       setCard: this.setCard,
+      setLastScanned: this.setLastScanned,
       currentBinder: this.state.currentBinder,
       currentCard: this.state.currentCard,
       uiTheme: {

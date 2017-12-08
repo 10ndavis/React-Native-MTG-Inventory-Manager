@@ -20,8 +20,8 @@ export default class ViewCard extends React.Component {
   }
 
   componentDidMount() {
-    const { screenProps } = this.props;
-    let card = screenProps.currentCard;
+    const { currentCard} = this.props;
+    let card = currentCard;
 
     Image.getSize(card.url, (srcWidth, srcHeight) => {
       const maxHeight = Dimensions.get('window').height;
@@ -35,8 +35,8 @@ export default class ViewCard extends React.Component {
   }
 
   render() {
-    const { screenProps } = this.props;
-    let card = screenProps.currentCard;
+    const { currentCard } = this.props;
+    let card = currentCard;
 
     return (
       <View style={styles.canvas}>

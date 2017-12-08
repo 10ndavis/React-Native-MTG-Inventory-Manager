@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid } from 'react-native';
+import {Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, StatusBar } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 
 export default class Drawer extends React.Component {
@@ -13,6 +13,8 @@ navigateToScreen = (route) => () => {
 
   render() {
     const { screenProps } = this.props;
+    let lastScannedBinder = screenProps.lastScannedBinder;
+
     return (
       <View style={styles.drawer}>
         { screenProps.loginStatus === true
@@ -21,6 +23,7 @@ navigateToScreen = (route) => () => {
               <View style={styles.drawerHeader}></View>
               <View style={styles.listItem}><Text onPress={this.navigateToScreen('Binders')}>Binders</Text></View>
               <View style={styles.listItem}><Text onPress={this.navigateToScreen('Trade')}>Check Trade List</Text></View>
+              {lastScannedBinder? <View><Text>Last Scanned Binder</Text></View> : <View />}
               <View style={styles.listItem}><Text onPress={this.navigateToScreen('LoginLogout')}>Logout</Text></View>
             </View>
           :
@@ -37,7 +40,9 @@ const styles = StyleSheet.create({
   drawer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingTop: StatusBar.currentHeight,
+    backgroundColor: 'black'
   },
   drawerHeader: {
     height: 150,
@@ -46,7 +51,8 @@ const styles = StyleSheet.create({
   },
   group: {
     flex: 1,
-    width: 300
+    width: 300,
+    backgroundColor: 'white'
   },
   listItem: {
     justifyContent: 'center',

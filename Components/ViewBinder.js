@@ -1,9 +1,13 @@
 import React from 'react';
 import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid,
-  TouchableHighlight, ToastAndroid, ScrollView } from 'react-native';
+  TouchableHighlight, ToastAndroid, ScrollView, Modal } from 'react-native';
 import { ActionButton, ThemeProvider } from 'react-native-material-ui';
+import Navbar from '.././Components/Navbar.js';
 import ShareModal from './ShareModal.js';
+import AddCardModal from './AddCardModal.js';
 import Card from './Card.js';
+import ViewCard from './ViewCard.js';
+import { NavigationActions } from 'react-navigation';
 
 export default class ViewBinder extends React.Component {
 
@@ -15,28 +19,44 @@ constructor(props) {
   super(props)
   this.state = {
     modalVisible: false,
+    cardModalVisible: false,
+    addCardModalVisible: false,
   };
 
   this.setModalVisible = this.setModalVisible.bind(this);
   this.handleAction = this.handleAction.bind(this);
+  this.setAddCardModalVisible = this.setAddCardModalVisible.bind(this);
 }
 
 setModalVisible(visible) {
   this.setState({modalVisible: visible});
 }
 
+setCardModalVisible(visible) {
+  this.setState({cardModalVisible: visible});
+}
+
+setAddCardModalVisible(visible) {
+  this.setState({addCardModalVisible: visible});
+}
 
 handleAction(action) {
   switch(action) {
     case 'share':
         this.setModalVisible(true);
         break;
-    case "test":
-        //doSomething
+    case 'add-box':
+        this.setAddCardModalVisible(true);
         break;
     default:
         // alert(action);
   }
+}
+
+openDrawer = () => {
+  const { navigate } = this.props.navigation;
+  const { screenProps } = this.props;
+  navigate('DrawerToggle');
 }
 
 navigateToScreen = (route) => {
@@ -49,26 +69,39 @@ navigateToScreen = (route) => {
   cardMap() {
     const { screenProps } = this.props;
     let binder = screenProps.currentBinder;
-
-    return binder.cards.map(function(card, i){
+    let sortedCards = [].concat(binder.cards).sort((a, b) => a.name > b.name);
+    let mappedCards = sortedCards.map(function(card, i){
     return(
-        <TouchableHighlight onPress={()=>{screenProps.setCard(card); this.navigateToScreen('ViewCard');}} style={styles.cardWrapper} key={i}>
+        <TouchableHighlight onPress={()=>{screenProps.setCard(card); this.setCardModalVisible(true);}} style={styles.cardWrapper} key={i}>
           <View style={styles.card}><Card screenProps={screenProps} card={card} /></View>
         </TouchableHighlight>
       );
     }, this);
+    return mappedCards;
   }
 
 
   render() {
     let { screenProps, updateBinder } = this.props;
-    let { modalVisible } = this.state;
+    let { modalVisible, cardModalVisible, addCardModalVisible } = this.state;
     let binder = screenProps.currentBinder;
+    let card = screenProps.currentCard;
 
     return (
       <ThemeProvider uiTheme={screenProps.uiTheme}>
-        <View style={styles.binder}>
+        <View style={styles.theme}>
+          <Navbar screenProps={screenProps} title={binder.title} navigate={this.openDrawer.bind(this)} />
+          <View style={styles.binder}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={cardModalVisible}
+              onRequestClose={() => {this.setCardModalVisible(false)}}
+              >
+              <ViewCard currentCard={card}/>
+            </Modal>
           <ShareModal binderName={binder.title} username={"test"} modalVisible={modalVisible} setModalVisible={this.setModalVisible} />
+          <AddCardModal binderName={binder.title} modalVisible={addCardModalVisible} setModalVisible={this.setAddCardModalVisible} />
             <ScrollView>
               <View style={styles.cardListOuter}>
                 <View style={styles.cardList}>
@@ -88,6 +121,7 @@ navigateToScreen = (route) => {
                 this.handleAction(action);
               }}
               transition="speedDial" />
+          </View>
         </View>
       </ThemeProvider>
     )

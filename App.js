@@ -9,13 +9,18 @@ import WishList from './Containers/WishList.js';
 import TradeList from './Containers/TradeList.js';
 import Drawer from './Components/Drawer.js';
 import Login from './Containers/Login.js';
+import ViewBinder from './Components/ViewBinder.js';
+import ViewCard from './Components/ViewCard.js';
+
 
 const MTGApp = DrawerNavigator({
     Binders: { screen: Binders},
     Trade: { screen: CheckForTrades},
     WishList: { screen: WishList},
     TradeList: {screen: TradeList},
-    LoginLogout: {screen: LoginLogout}
+    LoginLogout: {screen: LoginLogout},
+    ViewBinder: {screen: ViewBinder},
+    ViewCard: {screen: ViewCard}
   },
   {
     contentComponent: Drawer,
@@ -25,11 +30,15 @@ const MTGApp = DrawerNavigator({
 
 export default class App extends React.Component {
 
-  state = {
+  constructor(props) {
+    super(props)
+    this.state = {
       wishlist: ["Nothing in the list"],
       username: "Test Username",
       tradelist: ["Nothing in the list"],
       loggedIn: false,
+      currentBinder: null,
+      currentCard: null,
       binders: [{
         "cards": [
           {
@@ -48,8 +57,11 @@ export default class App extends React.Component {
       }],
     };
 
+    this.setBinder = this.setBinder.bind(this);
+    this.setCard = this.setCard.bind(this);
+  }
+
   loginSuccess(token) {
-    console.log(token)
     this.setState({
       loggedIn: true,
       username: token.username,
@@ -63,6 +75,18 @@ export default class App extends React.Component {
       loggedIn: false
     });
     ToastAndroid.show('Logout Success', ToastAndroid.SHORT);
+  }
+
+  setBinder(binder) {
+    this.setState({
+      currentBinder: binder
+    })
+  }
+
+  setCard(card) {
+    this.setState({
+      currentCard: card
+    })
   }
 
   updatewishlist(str) {
@@ -108,6 +132,10 @@ export default class App extends React.Component {
       logoutSuccess: this.logoutSuccess.bind(this),
       loginStatus: this.state.loggedIn,
       binders: this.state.binders,
+      setBinder: this.setBinder,
+      setCard: this.setCard,
+      currentBinder: this.state.currentBinder,
+      currentCard: this.state.currentCard,
       uiTheme: {
         palette: {
             primaryColor: '#546e7a'

@@ -4,29 +4,21 @@ import { ActionButton, ThemeProvider } from 'react-native-material-ui';
 
 export default class Card extends React.Component {
 
-  state = {
-
-  };
-
   render() {
     const { screenProps, card } = this.props;
-
     return (
-      <ThemeProvider uiTheme={screenProps.uiTheme}>
         <View style={styles.card}>
           <Image
-            style={{flex:1, height: undefined, width: undefined}}
+            style={{flex: 1}}
             source={{uri: card.url }}
           />
         </View>
-      </ThemeProvider>
     )
   }
 }
 
 const styles = StyleSheet.create({
   card: {
-    width: 110,
-    height: 150,
+    flex: 1
   }
 });

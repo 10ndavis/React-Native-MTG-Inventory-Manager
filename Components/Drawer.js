@@ -4,7 +4,7 @@ import {NavigationActions} from 'react-navigation';
 
 export default class Drawer extends React.Component {
 
-  navigateToScreen = (route) => () => {
+navigateToScreen = (route) => () => {
    const navigateAction = NavigationActions.navigate({
      routeName: route
    });

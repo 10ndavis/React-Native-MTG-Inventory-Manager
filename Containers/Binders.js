@@ -3,8 +3,8 @@ import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, Tou
 import { Camera, Permissions } from 'expo';
 import Navbar from '.././Components/Navbar.js';
 import Cam from '.././Components/Camera.js';
-import Binder from '.././Components/Binder.js';
 import { ActionButton, ThemeProvider } from 'react-native-material-ui';
+import { NavigationActions } from 'react-navigation';
 
 export default class Binders extends React.Component {
 
@@ -43,11 +43,18 @@ export default class Binders extends React.Component {
     })
   }
 
+  navigateToScreen = (route) => {
+     const navigateAction = NavigationActions.navigate({
+       routeName: route
+     });
+     this.props.navigation.dispatch(navigateAction);
+   }
+
   binderMap() {
     const { screenProps } = this.props;
     return screenProps.binders.map(function(binder, i){
     return(
-      <TouchableHighlight onPress={()=>{this.updateBinder(binder)}} key={i} style={styles.binder}>
+      <TouchableHighlight onPress={()=>{screenProps.setBinder(binder); this.navigateToScreen('ViewBinder');}} key={i} style={styles.binder}>
         <Text>{binder.title}</Text>
       </TouchableHighlight>
     );

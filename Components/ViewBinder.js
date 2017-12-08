@@ -3,25 +3,22 @@ import { Image, StyleSheet, AppRegistry, Text, View, Button, ToolbarAndroid, Tou
 import { ActionButton, ThemeProvider } from 'react-native-material-ui';
 import ShareModal from './ShareModal.js';
 import Card from './Card.js';
+import { NavigationActions } from 'react-navigation';
 
+export default class ViewBinder extends React.Component {
 
-export default class Binder extends React.Component {
+static navigationOptions = ({ navigation }) => ({
+  drawerLabel: 'ViewBinder'
+});
 
 constructor(props) {
   super(props)
   this.state = {
-    cardSelected: null,
     modalVisible: false,
   };
 
   this.setModalVisible = this.setModalVisible.bind(this);
   this.handleAction = this.handleAction.bind(this);
-}
-
-selectCard(card) {
-  this.setState({
-    cardSelected: card
-  })
 }
 
 setModalVisible(visible) {
@@ -30,7 +27,6 @@ setModalVisible(visible) {
 
 
 handleAction(action) {
-
   switch(action) {
     case 'share':
         this.setModalVisible(true);
@@ -43,43 +39,42 @@ handleAction(action) {
   }
 }
 
+navigateToScreen = (route) => {
+   const navigateAction = NavigationActions.navigate({
+     routeName: route
+   });
+   this.props.navigation.dispatch(navigateAction);
+ }
+
   cardMap() {
-    const { binder, screenProps } = this.props;
+    const { screenProps } = this.props;
+    let binder = screenProps.currentBinder;
+
     return binder.cards.map(function(card, i){
     return(
-        <TouchableHighlight onPress={()=>{this.selectCard(card)}} style={styles.card} key={i}>
-          <View><Card screenProps={screenProps} card={card} /></View>
+        <TouchableHighlight onPress={()=>{screenProps.setCard(card); this.navigateToScreen('ViewCard');}} style={styles.cardWrapper} key={i}>
+          <View style={styles.card}><Card screenProps={screenProps} card={card} /></View>
         </TouchableHighlight>
       );
     }, this);
   }
 
   render() {
-    let { screenProps, binder, updateBinder } = this.props;
-    let { cardSelected, modalVisible } = this.state;
+    let { screenProps, updateBinder } = this.props;
+    let { modalVisible } = this.state;
+    let binder = screenProps.currentBinder;
 
-    if(cardSelected) {
-      return (
-        <View style={styles.selectedCardWrapper}>
-          <Image
-            style={styles.selectedCard}
-            source={{uri:cardSelected.url}}
-            resizeMode="contain"
-          />
-        </View>
-      )
-    } else {
-      return (
-        <ThemeProvider uiTheme={screenProps.uiTheme}>
-          <View style={styles.binder}>
-            <ShareModal binderName={binder.title} username={"test"} modalVisible={modalVisible} setModalVisible={this.setModalVisible} />
-              <ScrollView>
-                <View style={styles.cardListOuter}>
-                  <View style={styles.cardList}>
-                    {this.cardMap()}
-                  </View>
+    return (
+      <ThemeProvider uiTheme={screenProps.uiTheme}>
+        <View style={styles.binder}>
+          <ShareModal binderName={binder.title} username={"test"} modalVisible={modalVisible} setModalVisible={this.setModalVisible} />
+            <ScrollView>
+              <View style={styles.cardListOuter}>
+                <View style={styles.cardList}>
+                  {this.cardMap()}
                 </View>
-              </ScrollView>
+              </View>
+            </ScrollView>
             <ActionButton
               actions={[
                   { icon: 'favorite', label: 'Favorite' },
@@ -92,10 +87,9 @@ handleAction(action) {
                 this.handleAction(action);
               }}
               transition="speedDial" />
-          </View>
-        </ThemeProvider>
-      )
-    }
+        </View>
+      </ThemeProvider>
+    )
   }
 }
 
@@ -119,8 +113,8 @@ const styles = StyleSheet.create({
   cardListOuter: {
 
   },
-  card: {
-    margin: 5
+  cardWrapper: {
+    margin: 5,
   },
   selectedCard: {
     position: 'absolute',
@@ -133,6 +127,10 @@ const styles = StyleSheet.create({
   selectedCardWrapper: {
     flex: 1,
     backgroundColor: 'white'
+  },
+  card: {
+    width: 110,
+    height: 150,
   }
 
 });
